@@ -1,128 +1,200 @@
-# RCC-Brain-Design-Challenge
+# Red Clay Brain – Take-Home Design Challenge
 
-This repository contains a design challenge specific to assessing the skills of junior front end developers.
+**Duration:** 48 Hours  
+**Tech Stack:** Next.js (App Router), TypeScript, Tailwind CSS, React, AWS Bedrock, Vercel
 
-## OUAF Agent Design Challenge
+## 🎯 **Challenge Overview**
 
-This project provides a **minimal backend scaffold** for a design challenge.  
-Frontend developers will build UI features (chat interface, streaming responses, error handling) on top of this backend.
+You are tasked with improving the oracle utilities assistant app. This agent will be able to help you out with any questions one might have on oracle docs for OUAF [Attach link]. The backend is already set up with a working API that can accept chat messages and return AI agent responses. Your job is to implement the frontend enhancements and streaming experience to make the app feel like a polished internal AI tool.
 
-## 🚀 Tech Stack
+## 🏗️ **Existing Setup**
 
-- **Next.js App Router**
-- **TypeScript**
-- **Tailwind CSS**
-- **AWS Bedrock Agent Runtime** (`@aws-sdk/client-bedrock-agent-runtime`)
-- **Vercel AI SDK (`ai`)** for optional streaming
-- **No DB / No Auth** – simplified for challenge purposes
+### **Backend API Ready**
+- Backend exposes `/api/chat` with block and streaming support
+- Fully functional AWS Bedrock Agent integration (This agent will only be accessible for 48 Hours)
+- TypeScript interfaces and basic error handling for backend already implemented
 
-## 📂 Project Structure
+### **Test the API**
+You can test responses in Postman using JSON requests:
 
-```
-lib/
- └─ agents/
-      ├─ agent-factory.ts      # Delegates to the correct agent
-      ├─ ouaf-agent.ts         # OUAF agent logic
-      ├─ invoke-agent.ts       # Handles AWS Bedrock invocation
-      ├─ stream-utils.ts       # Async generator for streaming (frontend can implement)
-      ├─ client.ts             # Configures AWS Bedrock Agent client
-      └─ errors.ts             # Standardized error & logging utilities
-app/
- └─ api/
-      └─ chat/
-          └─ route.ts          # POST endpoint for sending messages to the agent
-components/
- └─ Chat.tsx                   # Placeholder chat component (frontend to implement)
-```
-
-## ⚡ Quick Start
-
-### 1️⃣ Install Dependencies
-
-```bash
-npm install
-```
-
-### 2️⃣ Set Environment Variables
-
-Create `.env.local`:
-
-```
-AWS_ACCESS_KEY_ID=your-access-key
-AWS_SECRET_ACCESS_KEY=your-secret-key
-AWS_REGION=us-east-1
-
-OUAF_AGENT_ID=your-agent-id
-OUAF_AGENT_ALIAS_ID=your-agent-alias-id
-```
-
-## 💬 How the Chat Flow Works
-
-1. **Frontend** sends a `POST` to `/api/chat` with `{ message }`
-2. **API Route (`route.ts`)**:
-   - Calls `agentFactory('ouaf', message)`
-   - Returns JSON `{ response }` or `{ error }`
-3. **Agent Factory** delegates to:
-   - `invokeOuafAgent` → Non-streaming Bedrock invocation
-   - `streamAgentResponse` → Optional streaming generator
-4. **Frontend developer task:** implement streaming UI using `ReadableStream`
-
-## ⚙️ Error Handling Pattern
-
-We use a **layered pattern**:
-
-- **Inner Layers (`invoke-agent.ts`, `ouaf-agent.ts`)**
-  - Log the error with context using `logAgentError(agentType, err)`
-  - Rethrow the error
-- **Agent Factory (`agent-factory.ts`)**
-  - Delegates calls and throws generic `Error` for unknown agent types
-- **API Route (`/app/api/chat/route.ts`)**
-  - Wraps all calls in `try/catch`
-  - Formats a **safe frontend response** using:
-    - `formatAgentError(err)`  
-    - `agentErrors.general` as fallback
-
-Example response to frontend:
-
+**Block Response (Testing):**
 ```json
-{ "error": "Something went wrong. Please try again." }
+POST http://localhost:3000/api/chat
+{
+  "agentType": "ouaf",
+  "message": "Hello Brain",
+  "stream": false
+}
 ```
 
-> **Note:** Full stack traces and context are logged on the server.  
-> Frontend only sees safe, user‑friendly messages.
-
-## 🔹 Logging Pattern
-
-We use `logAgentEvent` and `logAgentError` to standardize logs:
-
-```ts
-logAgentEvent('ouaf', 'Incoming message', { message });
-logAgentError('ouaf', err);
+**Stream Response (UI Implementation):**
+```json
+POST http://localhost:3000/api/chat
+{
+  "agentType": "ouaf", 
+  "message": "Tell me about Red Clay Brain",
+  "stream": true
+}
 ```
 
-Log format:
+## 🎯 **Your Tasks**
 
+### **Bare Minimum Requirements**
+
+#### 1. **Streaming Chat Support (Frontend)**
+- Convert the existing frontend chat screen to streaming responses using the `/api/chat` endpoint with `stream: true`
+- Messages should appear in a typing animation style (word-by-word or chunk-by-chunk)
+- Show a loading indicator while the agent is "thinking"
+- Implement proper Server-Sent Events (SSE) handling for real-time updates
+
+#### 2. **Centralized Error Handling**
+- Implement a unified error toast/alert system for frontend errors
+- Avoid silent failures
+
+### **Creative / UX Challenge**
+
+#### 1. **Design a UX-Friendly Home Screen**
+- Show cards section with default chat intents such as: [Change this to OUAF specific content]
+  - "Summarize Document"
+  - "Get Project Status" 
+  - "Explain Code Snippet"
+  - "Brainstorm Ideas"
+  - "Technical Q&A"
+- Include a **chat input box** on the home screen:
+  - Typing a message OR clicking a card → Navigates to the **dedicated chat page**
+  - Smooth transition animations
+
+#### 2. **Standard Chat Interface**
+- Create a dedicated chat page that mimics **ChatGPT/Claude layout**:
+  - Messages aligned for user vs AI
+  - Full-screen scrollable history
+  - Auto-scroll to latest message
+  - Timestamp or agent name in the header
+  - Clean message bubbles with proper spacing
+
+
+### **Optional Bonus Points**
+
+- **Reusable Components:** Design modular `ChatMessage`, `ChatInput`, and `Card` components to show clean code practices
+- **Keyboard Shortcuts:** Enter to send, Escape to clear, etc.
+- **Message Actions:** Copy message, retry failed messages
+- **Theme Support:** Light/dark mode toggle
+- **Accessibility:** ARIA labels, keyboard navigation, screen reader support
+
+## 📋 **Rules & Expectations**
+
+- **Try not to modify the existing backend** unless absolutely necessary
+- **Use Next.js App Router** (already scaffolded)
+- **Keep code modular and readable** – we want to see how you structure components and handle API interactions
+- **Document any assumptions** or **future improvements** in your README
+- **Do Not Over-Engineer:** Focus on **readability and UX polish** over building a massive state management layer
+
+## 🚀 **Getting Started**
+
+### **Prerequisites**
+- Node.js 18+
+- npm or yarn
+- Code editor of your choice
+
+### **Setup Instructions**
+1. Clone or download the project - [Github URL]
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Copy environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open [http://localhost:3000](http://localhost:3000)
+
+### **Backend API Reference**
+
+#### **Endpoints Available**
+- `GET /api/health` - Health check
+- `POST /api/agents` - Chat with AI agent
+
+#### **Request Format**
+```typescript
+interface AgentRequest {
+  message: string;
+  agentType?: string; // defaults to "ouaf"
+  stream?: boolean;   // false for block, true for streaming
+}
 ```
-[2025-08-05T14:30:00.000Z] [OUAF] Incoming message { message: "Hello" }
-[2025-08-05T14:30:01.000Z] [OUAF ERROR] Error: Network timeout
+
+#### **Response Formats**
+
+**Block Response:**
+```json
+{
+  "success": true,
+  "data": "AI agent response text here...",
+  "agentType": "ouaf",
+  "timestamp": "2025-08-06T10:30:00.000Z"
+}
 ```
 
-## ⏩ Streaming (Optional for Frontend Dev)
+**Stream Response (Server-Sent Events):**
+```
+event: start
+data: {"type":"start","agentType":"ouaf"}
 
-- Backend provides `streamAgentResponse()` in `stream-utils.ts`  
-- Returns an **async generator** yielding text chunks from Bedrock  
-- Frontend dev can implement:
+event: chunk  
+data: {"type":"chunk","content":"Hello","timestamp":"..."}
 
-```ts
-const res = await fetch('/api/chat', { method: 'POST', body: ... });
-const reader = res.body.getReader();
+event: chunk
+data: {"type":"chunk","content":" there!","timestamp":"..."}
+
+event: complete
+data: {"type":"complete"}
 ```
 
-- Then decode chunks progressively to update the UI
+## 📦 **Concluded Deliverables**
 
-## 🎯 Design Challenge Tasks
+1. **Functional Next.js app** with:
+   - Streaming chat support
+   - Centralized frontend error handling  
+   - Polished home page → chat flow with cards and mini input
+   - Clean, readable component architecture
 
-1. Build a **creative chat UI** for OUAF agent  
-2. Display **error messages gracefully**  
-3. Implement **streaming chat responses** using the backend's async generator  
-4. Optional: Add **message history or session handling** in the frontend
+2. **Updated README.md** including:
+   - Setup instructions (`npm install && npm run dev`)
+   - Any known issues or future improvements
+   - Architecture decisions and component structure
+   - Assumptions made during development
+
+## 📤 **Submission**
+
+- **ZIP file** or **GitHub repository link** with your final code
+- Ensure the app runs locally with `npm run dev` without extra config steps
+- Include a brief demo video or screenshots (optional but appreciated)
+
+
+## 🧠 **What We're Looking For**
+
+This challenge tests your ability to:
+- **Integrate with streaming APIs** and handle real-time data
+- **Create polished user interfaces** with attention to UX details
+- **Handle errors gracefully** with user-friendly feedback
+- **Structure React applications** with clean, maintainable code
+- **Work with existing backends** without over-engineering
+- **Deliver within time constraints** while maintaining quality
+
+## 💡 **Tips for Success**
+
+- **Focus on user experience** - smooth animations and clear feedback
+- **Handle edge cases** - network issues, empty states, loading states
+- **Keep components small and focused** - easier to test and maintain
+- **Use TypeScript effectively** - leverage types for better development experience
+- **Test your streaming** - use the browser developer tools to monitor SSE connections
+
+---
+
+**Good luck! We're excited to see your creative approach to this challenge.** 🚀
+
+For questions or clarifications, please reach out to the hiring team.

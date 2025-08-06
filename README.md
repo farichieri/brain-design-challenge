@@ -1,9 +1,11 @@
-# OUAF Agent Design Challenge
+# RCC-Brain-Design-Challenge
+
+This repository contains a design challenge specific to assessing the skills of junior front end developers.
+
+## OUAF Agent Design Challenge
 
 This project provides a **minimal backend scaffold** for a design challenge.  
 Frontend developers will build UI features (chat interface, streaming responses, error handling) on top of this backend.
-
-
 
 ## 🚀 Tech Stack
 
@@ -13,8 +15,6 @@ Frontend developers will build UI features (chat interface, streaming responses,
 - **AWS Bedrock Agent Runtime** (`@aws-sdk/client-bedrock-agent-runtime`)
 - **Vercel AI SDK (`ai`)** for optional streaming
 - **No DB / No Auth** – simplified for challenge purposes
-
-
 
 ## 📂 Project Structure
 
@@ -34,8 +34,6 @@ app/
 components/
  └─ Chat.tsx                   # Placeholder chat component (frontend to implement)
 ```
-
-
 
 ## ⚡ Quick Start
 
@@ -58,8 +56,6 @@ OUAF_AGENT_ID=your-agent-id
 OUAF_AGENT_ALIAS_ID=your-agent-alias-id
 ```
 
-
-
 ## 💬 How the Chat Flow Works
 
 1. **Frontend** sends a `POST` to `/api/chat` with `{ message }`
@@ -70,8 +66,6 @@ OUAF_AGENT_ALIAS_ID=your-agent-alias-id
    - `invokeOuafAgent` → Non-streaming Bedrock invocation
    - `streamAgentResponse` → Optional streaming generator
 4. **Frontend developer task:** implement streaming UI using `ReadableStream`
-
-
 
 ## ⚙️ Error Handling Pattern
 
@@ -97,8 +91,6 @@ Example response to frontend:
 > **Note:** Full stack traces and context are logged on the server.  
 > Frontend only sees safe, user‑friendly messages.
 
-
-
 ## 🔹 Logging Pattern
 
 We use `logAgentEvent` and `logAgentError` to standardize logs:
@@ -115,8 +107,6 @@ Log format:
 [2025-08-05T14:30:01.000Z] [OUAF ERROR] Error: Network timeout
 ```
 
-
-
 ## ⏩ Streaming (Optional for Frontend Dev)
 
 - Backend provides `streamAgentResponse()` in `stream-utils.ts`  
@@ -130,11 +120,9 @@ const reader = res.body.getReader();
 
 - Then decode chunks progressively to update the UI
 
-
-
 ## 🎯 Design Challenge Tasks
 
 1. Build a **creative chat UI** for OUAF agent  
 2. Display **error messages gracefully**  
-3. Implement **streaming chat responses** using the backend’s async generator  
+3. Implement **streaming chat responses** using the backend's async generator  
 4. Optional: Add **message history or session handling** in the frontend

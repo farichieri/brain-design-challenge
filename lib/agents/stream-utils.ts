@@ -1,60 +1,34 @@
-import {
-  InvokeAgentCommand,
-  InvokeAgentCommandInput,
-} from '@aws-sdk/client-bedrock-agent-runtime';
-import { bedrockAgentClient } from './client';
-import { logAgentEvent, logAgentError } from './errors';
+import { InvokeAgentCommandOutput } from '@aws-sdk/client-bedrock-agent-runtime';
 
-// Stream OUAF agent response as async generator for real-time chunks
-export async function* streamAgentResponse(input: string): AsyncGenerator<string> {
+// Process completion stream and yield chunks for real-time streaming
+export async function* streamAgentResponse(response: InvokeAgentCommandOutput): AsyncGenerator<string> {
   try {
-    const params: InvokeAgentCommandInput = {
-      agentId: process.env.BEDROCK_AGENT_ID!,
-      agentAliasId: process.env.BEDROCK_AGENT_ALIAS_ID!,
-      sessionId: crypto.randomUUID(),
-      inputText: input,
-    };
-
-    const command = new InvokeAgentCommand(params);
-    
-    logAgentEvent('ouaf', 'Invoking agent for streaming');
-    
-    const response = await bedrockAgentClient.send(command);
     const { completion } = response;
 
     if (!completion) {
-      logAgentEvent('ouaf', 'No completion stream received');
       yield 'No response from agent.';
       return;
     }
 
     const decoder = new TextDecoder();
-    let chunkCount = 0;
 
-    // Process each chunk from the completion stream
-    for await (const chunk of completion) {
-      try {
+    try {
+      for await (const chunk of completion) {
         if (chunk.chunk?.bytes) {
           const decodedText = decoder.decode(chunk.chunk.bytes);
-          chunkCount++;
-          
-          logAgentEvent('ouaf', `Processing chunk ${chunkCount}`, { 
-            length: decodedText.length,
-            preview: decodedText.substring(0, 50) + (decodedText.length > 50 ? '...' : '')
-          });
-          
           yield decodedText;
         }
-      } catch (chunkError) {
-        logAgentError('ouaf', `Error processing chunk ${chunkCount}: ${chunkError}`);
-        yield `[Error processing chunk: ${chunkError instanceof Error ? chunkError.message : 'Unknown error'}]`;
+      }
+    } catch (parseError) {
+      // Handle parsing errors in stream
+      if (parseError instanceof Error && parseError.message.includes('parse the model response')) {
+        yield 'The agent response could not be parsed. Please check your agent configuration.';
+      } else {
+        yield `Stream error: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`;
       }
     }
-
-    logAgentEvent('ouaf', `Stream completed. Total chunks: ${chunkCount}`);
     
   } catch (error) {
-    logAgentError('ouaf', error);
-    yield `[Stream Error: ${error instanceof Error ? error.message : 'Unknown streaming error'}]`;
+    yield `Stream Error: ${error instanceof Error ? error.message : 'Unknown streaming error'}`;
   }
 }

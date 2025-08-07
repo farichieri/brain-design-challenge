@@ -1,20 +1,17 @@
 import { agentFactory } from '@/lib/agents/agent-factory';
 import { formatAgentError, agentErrors, logAgentEvent, logAgentError } from '@/lib/agents/errors';
 
-// Request payload structure for chat API
-interface AgentRequest {
-  message: string;        // User message to send to AI agent
-  agentType?: string;     // Agent type (defaults to 'ouaf')
-  stream?: boolean;       // Whether to stream response chunks
+interface ChatRequest {
+  message: string;
+  stream?: boolean; // true for streaming, false for block response
 }
 
-// Main chat endpoint - supports both streaming and block responses
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { message, agentType = 'ouaf', stream = false } = body as AgentRequest;
+    const { message, stream = false } = body as ChatRequest;
 
-    // Validate required fields
+    // Validate message
     if (!message || typeof message !== 'string') {
       return new Response(
         JSON.stringify({ success: false, error: 'Message is required and must be a string' }),
@@ -22,19 +19,18 @@ export async function POST(req: Request) {
       );
     }
 
-    logAgentEvent(agentType, 'Incoming message', { message, stream });
+    logAgentEvent('chat', 'Incoming message', { message, stream });
 
     if (!stream) {
-      // Block mode: return complete response at once
-      const response = await agentFactory(agentType, message, false);
+      // Block mode: return complete response
+      const response = await agentFactory(message, false);
       
-      logAgentEvent(agentType, 'Block response ready');
+      logAgentEvent('chat', 'Block response ready');
 
       return new Response(
         JSON.stringify({ 
           success: true, 
           data: response,
-          agentType,
           timestamp: new Date().toISOString()
         }),
         { 
@@ -44,20 +40,20 @@ export async function POST(req: Request) {
       );
     }
 
-    // Stream mode: return chunks via Server-Sent Events
-    logAgentEvent(agentType, 'Starting stream response');
+    // Stream mode: return Server-Sent Events
+    logAgentEvent('chat', 'Starting stream response');
     
-    const streamGenerator = await agentFactory(agentType, message, true);
+    const streamGenerator = await agentFactory(message, true);
 
     const streamResponse = new ReadableStream({
       async start(controller) {
         const encoder = new TextEncoder();
         
         try {
-          // Send stream start event
-          controller.enqueue(encoder.encode(`event: start\ndata: {"type":"start","agentType":"${agentType}"}\n\n`));
+          // Send start event
+          controller.enqueue(encoder.encode(`event: start\ndata: {"type":"start"}\n\n`));
           
-          // Process and send each chunk
+          // Send chunks
           for await (const chunk of streamGenerator) {
             if (chunk) {
               const data = JSON.stringify({
@@ -69,11 +65,11 @@ export async function POST(req: Request) {
             }
           }
           
-          // Send stream completion event
+          // Send completion
           controller.enqueue(encoder.encode(`event: complete\ndata: {"type":"complete"}\n\n`));
           
         } catch (error) {
-          logAgentError(agentType, error);
+          logAgentError('chat', error);
           
           const errorData = JSON.stringify({
             type: 'error',
@@ -98,7 +94,7 @@ export async function POST(req: Request) {
     });
 
   } catch (err) {
-    logAgentError('system', err);
+    logAgentError('chat', err);
     
     return new Response(
       JSON.stringify({ 
@@ -114,7 +110,6 @@ export async function POST(req: Request) {
   }
 }
 
-// Handle OPTIONS for CORS
 export async function OPTIONS() {
   return new Response(null, {
     status: 200,

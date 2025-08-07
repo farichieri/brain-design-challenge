@@ -6,8 +6,7 @@ import {
 } from '@aws-sdk/client-bedrock-agent-runtime';
 import { logAgentEvent, logAgentError } from './errors';
 
-// Invoke OUAF agent for block (non-streaming) responses
-// Required env vars: BEDROCK_AGENT_ID, BEDROCK_AGENT_ALIAS_ID
+// Invoke Bedrock agent and return raw response
 export async function invokeOuafAgent(message: string): Promise<InvokeAgentCommandOutput> {
   try {
     const params: InvokeAgentCommandInput = {
@@ -17,24 +16,16 @@ export async function invokeOuafAgent(message: string): Promise<InvokeAgentComma
       inputText: message,
     };
 
-    logAgentEvent('ouaf', 'Invoking agent for block response', { 
-      agentId: params.agentId,
-      agentAliasId: params.agentAliasId,
-      messageLength: message.length
-    });
-
+    logAgentEvent('agent', 'Invoking Bedrock agent');
+    
     const command = new InvokeAgentCommand(params);
     const response = await bedrockAgentClient.send(command);
 
-    logAgentEvent('ouaf', 'Agent response received', {
-      hasCompletion: !!response.completion,
-      sessionId: response.sessionId
-    });
-
+    logAgentEvent('agent', 'Agent response received');
     return response;
     
   } catch (error) {
-    logAgentError('ouaf', error);
-    throw new Error(`Failed to invoke OUAF agent: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    logAgentError('agent', error);
+    throw new Error(`Failed to invoke agent: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }

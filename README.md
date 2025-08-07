@@ -194,7 +194,6 @@ This challenge tests your ability to:
 - **Test your streaming** - use the browser developer tools to monitor SSE connections
 
 ---
----
 ## **Styling Suggestions**
 <aside>
 💡
@@ -370,7 +369,7 @@ Returning:  "Welcome back, [Name] How can I help you today?"
 - Color: Medium gray (#666666)
 - Size: 12px
 
----
+--
 
 ## 📋 Quick Reference
 

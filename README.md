@@ -21,8 +21,7 @@ You can test responses in Postman using JSON requests:
 ```json
 POST http://localhost:3000/api/chat
 {
-  "agentType": "ouaf",
-  "message": "Hello Brain",
+  "message": "Hello, how can you help me?",
   "stream": false
 }
 ```
@@ -31,8 +30,7 @@ POST http://localhost:3000/api/chat
 ```json
 POST http://localhost:3000/api/chat
 {
-  "agentType": "ouaf", 
-  "message": "Tell me about Red Clay Brain",
+  "message": "Hello, how can you help me?",
   "stream": true
 }
 ```
@@ -122,7 +120,6 @@ POST http://localhost:3000/api/chat
 ```typescript
 interface AgentRequest {
   message: string;
-  agentType?: string; // defaults to "ouaf"
   stream?: boolean;   // false for block, true for streaming
 }
 ```
@@ -134,7 +131,6 @@ interface AgentRequest {
 {
   "success": true,
   "data": "AI agent response text here...",
-  "agentType": "ouaf",
   "timestamp": "2025-08-06T10:30:00.000Z"
 }
 ```
@@ -185,17 +181,10 @@ This challenge tests your ability to:
 - **Work with existing backends** without over-engineering
 - **Deliver within time constraints** while maintaining quality
 
-## 💡 **Tips for Success**
-
-- **Focus on user experience** - smooth animations and clear feedback
-- **Handle edge cases** - network issues, empty states, loading states
-- **Keep components small and focused** - easier to test and maintain
-- **Use TypeScript effectively** - leverage types for better development experience
-- **Test your streaming** - use the browser developer tools to monitor SSE connections
 
 ## **Styling Suggestions**
 <aside>
-💡
+
 
 Please treat everything below as *soft suggestions* for how the chatbot should look. We want to provide some guidelines for how the app will look, but if you have suggestions or recommendations, **do not shy away** from making them. Your creativity should precede guidelines in this challenge.
 

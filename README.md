@@ -193,7 +193,6 @@ This challenge tests your ability to:
 - **Use TypeScript effectively** - leverage types for better development experience
 - **Test your streaming** - use the browser developer tools to monitor SSE connections
 
----
 ## **Styling Suggestions**
 <aside>
 💡
@@ -306,8 +305,6 @@ Extra Large (XL): 32px  - Major sections
 
 ```
 
----
-
 ## 💬 Conversational Design
 
 ### Bot Personality
@@ -346,7 +343,6 @@ Returning:  "Welcome back, [Name] How can I help you today?"
 2. "I'm not sure I understand. Can you tell me more?"
 3. "Let me make sure I understand what you're looking for..."
 
----
 
 ### Visual Feedback
 
@@ -369,7 +365,6 @@ Returning:  "Welcome back, [Name] How can I help you today?"
 - Color: Medium gray (#666666)
 - Size: 12px
 
---
 
 ## 📋 Quick Reference
 

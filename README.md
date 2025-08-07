@@ -194,6 +194,211 @@ This challenge tests your ability to:
 - **Test your streaming** - use the browser developer tools to monitor SSE connections
 
 ---
+---
+## **Styling Suggestions**
+<aside>
+💡
+
+Please treat everything below as *soft suggestions* for how the chatbot should look. We want to provide some guidelines for how the app will look, but if you have suggestions or recommendations, **do not shy away** from making them. Your creativity should precede guidelines in this challenge.
+
+</aside>
+
+## Visual Design
+
+### Colors
+
+### Red Clay Brand Palette
+
+| Color Role | Hex Code | Name | Characteristics |
+| --- | --- | --- | --- |
+| **Primary Accent** | #9B2D1F | Clay Red | Bold, warm, confident |
+| **Body** | #272525 | Charcoal | Strong, grounded, sophisticated |
+| **Secondary Accent** | #6B8383 | Sage | Calming, balanced, trustworthy |
+| **Tertiary** | #AFAC7F | Sand | Warm, approachable, natural |
+
+### Extended Palette
+
+| Color | Hex Code | Notes |
+| --- | --- | --- |
+| **White** | #FFFFFF | Pure white for contrast |
+| **Off-White** | #FAFAF8 | Softer alternative to pure white |
+| **Light Gray** | #F5F5F3 | Subtle backgrounds |
+| **Medium Gray** | #8B8989 | Secondary text (45% of Body) |
+| **Success** | #6B8383 | Can use Secondary Accent |
+| **Warning** | #AFAC7F | Can use Tertiary |
+| **Error** | #9B2D1F | Can use Primary Accent |
+
+### Gradient Suggestions
+
+**Primary Gradient:** Linear gradient from Clay Red (#9B2D1F) to a deeper shade (#7A241A)
+
+- Great for CTAs, headers, emphasis elements
+
+**Secondary Gradient:** Sage (#6B8383) to Sand (#AFAC7F)
+
+- Subtle, calming backgrounds
+- Perfect for bot message bubbles
+
+**Warm Gradient:** Sand (#AFAC7F) to warm white (#FFF9F5)
+
+- Soft backgrounds, welcome screens
+
+**Dark Gradient:** Charcoal (#272525) to lighter charcoal (#3A3838)
+
+- Premium feel, night mode options
+
+### Design Freedom
+
+You have creative freedom to mix and mash the color palette above dependent on your view of:
+
+- User testing and accessibility requirements
+- Visual hierarchy needs
+- Brand expression opportunities
+- Emotional responses desired
+
+Consider using:
+
+- **Gradients** for depth and visual interest
+- **Color overlays** with transparency for layering
+- **Tints and shades** of the core palette for variety
+
+### Typography
+
+### Font Stack
+
+```
+Primary: 'Manrope'
+Monospace: 'JetBrains Mono', 'SF Mono', 'Courier New'
+
+Google Fonts Import: 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+```
+
+### Suggested Size Scale
+
+- **Chat messages:** 16px (1rem) - Optimal reading size
+- **Timestamps:** 12px (0.75rem) - De-emphasized
+- **Header/Bot name:** 18px (1.125rem) - Slightly prominent
+- **Buttons:** 14px (0.875rem) - Compact but readable
+- **Input field:** 16px (1rem) - Matches message size
+
+### Spacing System
+
+**Base Unit: 8px** - All spacing uses multiples of 8
+
+### Component Spacing
+
+- **Between messages:** 16px gap
+- **Message padding:** 12px horizontal, 8px vertical
+- **Avatar to message:** 8px gap
+- **Chat window padding:** 24px
+- **Button padding:** 12px horizontal, 8px vertical
+- **Input field padding:** 16px
+
+### Visual Rhythm
+
+```
+Extra Small (XS): 4px  - Tight spacing
+Small (S):        8px  - Between related elements
+Medium (M):      16px  - Standard gap
+Large (L):       24px  - Section spacing
+Extra Large (XL): 32px  - Major sections
+
+```
+
+---
+
+## 💬 Conversational Design
+
+### Bot Personality
+
+### Voice Characteristics
+
+- **Friendly but professional** - Like a knowledgeable colleague.
+- **Use contractions** - "I'll" instead of "I will" for warmth.
+- **Active voice** - "I can help you with..." not "You can be helped...".
+- **Concise** - Aim for 2-3 sentence responses when possible.
+
+### Conversation Starters
+
+```
+First time: "Howdy [Name], what are we working on today?"
+
+Returning:  "Welcome back, [Name] How can I help you today?"
+```
+
+### Response Patterns
+
+### Standard Responses
+
+| Situation | Example Response |
+| --- | --- |
+| **Greeting** | "Hello! How can I help you today?" |
+| **Processing** | "Let me look that up for you..." |
+| **Clarification** | "I want to make sure I understand - are you asking about...?" |
+| **Success** | "Great! I've successfully [action]. Anything else?" |
+| **Apology** | "I apologize for the confusion. Let me try again..." |
+| **Handoff** | "I’m not sure, I would reach out to [person name] for a better answer, to be honest." |
+
+### Error Messages (Rotate these)
+
+1. "Hmm, I didn't quite catch that. Could you rephrase?"
+2. "I'm not sure I understand. Can you tell me more?"
+3. "Let me make sure I understand what you're looking for..."
+
+---
+
+### Visual Feedback
+
+### Typing Indicator
+
+```
+● ● ●  (Animated dots, 400ms intervals)
+```
+
+### Loading States
+
+- Skeleton screens for content loading
+- Subtle pulse animation on processing
+- "pondering..." text for complex queries
+
+### Timestamps
+
+- Show on hover or after 5 minute gaps
+- Format: "2:30 PM" for today, "Yesterday 2:30 PM" for previous days
+- Color: Medium gray (#666666)
+- Size: 12px
+
+---
+
+## 📋 Quick Reference
+
+### Do's ✅
+
+- Keep messages concise
+- Use emojis sparingly (1 per message max)
+- Provide clear next steps
+- Acknowledge user input immediately
+- Show typing indicator for responses over 2 seconds
+
+### Don'ts ❌
+
+- Don't use ALL CAPS (feels like shouting)
+- Avoid jargon without explanation
+- Don't blame the user for errors
+- Never pretend to be human
+- Avoid walls of text
+
+### Accessibility Minimums
+
+- **Color contrast:** 4.5:1 minimum
+- **Touch targets:** 44×44px minimum
+- **Focus indicators:** Always visible
+- **Text sizing:** Supports 200% zoom
+- **Keyboard navigation:** Full support
+
+---
 
 **Good luck! We're excited to see your creative approach to this challenge.** 🚀
 

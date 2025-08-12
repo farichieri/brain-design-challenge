@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ChatMessage from '@/app/components/chat-message';
 import ChatInput from '@/app/components/chat-input';
+import ThemeToggle from '@/app/components/theme-toggle';
 import { useStreamingChat } from '@/app/hooks/use-streaming-chat';
 
 export default function ChatPage() {
@@ -63,6 +64,7 @@ export default function ChatPage() {
           >
             Clear Chat
           </button>
+          <ThemeToggle />
         </div>
       </header>
 

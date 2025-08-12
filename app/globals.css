@@ -65,30 +65,30 @@
 @layer base {
   :root {
     --nav-height: 4rem;
-    --background: 60 5% 98%;
-    --foreground: 15 10% 15%;
+    --background: 60 5% 96%;
+    --foreground: 15 10% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 15 10% 15%;
+    --card-foreground: 15 10% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 15 10% 15%;
+    --popover-foreground: 15 10% 10%;
     --primary: 9 65% 36%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 180 9% 45%;
+    --secondary: 180 12% 40%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 60 5% 96%;
-    --muted-foreground: 20 3% 55%;
-    --accent: 48 19% 59%;
-    --accent-foreground: 15 10% 15%;
+    --muted: 60 5% 92%;
+    --muted-foreground: 20 5% 45%;
+    --accent: 48 25% 55%;
+    --accent-foreground: 15 10% 10%;
     --destructive: 9 65% 36%;
     --destructive-foreground: 0 0% 98%;
-    --border: 20 3% 85%;
-    --input: 20 3% 85%;
+    --border: 20 5% 80%;
+    --input: 20 5% 88%;
     --ring: 9 65% 36%;
     --chart-1: 9 65% 36%;
-    --chart-2: 180 9% 45%;
-    --chart-3: 48 19% 59%;
-    --chart-4: 20 3% 55%;
-    --chart-5: 15 10% 15%;
+    --chart-2: 180 12% 40%;
+    --chart-3: 48 25% 55%;
+    --chart-4: 20 5% 45%;
+    --chart-5: 15 10% 10%;
     --radius: 0.5rem;
     --nav-height: 5rem;
   }

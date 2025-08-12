@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ChatMessage from '@/app/components/chat-message';
 import ChatInput from '@/app/components/chat-input';
@@ -15,6 +15,7 @@ export default function ChatPage() {
     sendMessage,
     clearMessages,
     retryLastMessage,
+    retryMessage,
   } = useStreamingChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
@@ -29,6 +30,20 @@ export default function ChatPage() {
       sendMessage(messageFromUrl);
     }
   }, [searchParams, sendMessage, messages.length]);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        clearMessages();
+      }
+    },
+    [clearMessages]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <div className="flex flex-col h-screen bg-background">
@@ -54,6 +69,7 @@ export default function ChatPage() {
             <button
               onClick={retryLastMessage}
               className="px-3 py-1 text-sm bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/90 transition-colors"
+              aria-label="Retry last message"
             >
               Retry
             </button>
@@ -61,6 +77,7 @@ export default function ChatPage() {
           <button
             onClick={clearMessages}
             className="px-3 py-1 text-sm bg-muted text-muted-foreground rounded-md hover:bg-muted/80 transition-colors"
+            aria-label="Clear all messages"
           >
             Clear Chat
           </button>
@@ -68,7 +85,12 @@ export default function ChatPage() {
         </div>
       </header>
 
-      <div className="flex-1 overflow-y-auto">
+      <div
+        className="flex-1 overflow-y-auto"
+        role="log"
+        aria-label="Chat messages"
+        aria-live="polite"
+      >
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center max-w-md mx-auto p-6">
@@ -100,6 +122,9 @@ export default function ChatPage() {
                 isUser={message.isUser}
                 timestamp={message.timestamp}
                 isStreaming={message.isStreaming}
+                onRetry={
+                  !message.isUser ? () => retryMessage(message.id) : undefined
+                }
               />
             ))}
 
@@ -111,17 +136,11 @@ export default function ChatPage() {
                   </span>
                 </div>
                 <div className="bg-muted rounded-2xl px-4 py-3">
-                  <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex items-center gap-3 text-muted-foreground">
                     <div className="flex gap-1">
-                      <div className="w-2 h-2 bg-current rounded-full animate-pulse"></div>
-                      <div
-                        className="w-2 h-2 bg-current rounded-full animate-pulse"
-                        style={{ animationDelay: '0.2s' }}
-                      ></div>
-                      <div
-                        className="w-2 h-2 bg-current rounded-full animate-pulse"
-                        style={{ animationDelay: '0.4s' }}
-                      ></div>
+                      <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce [animation-delay:0ms] [animation-duration:1.2s]"></div>
+                      <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce [animation-delay:150ms] [animation-duration:1.2s]"></div>
+                      <div className="w-2 h-2 bg-muted-foreground/60 rounded-full animate-bounce [animation-delay:300ms] [animation-duration:1.2s]"></div>
                     </div>
                     <span className="text-sm">
                       OUAF Assistant is thinking...

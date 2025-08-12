@@ -14,7 +14,8 @@ export default function IntentCard({
   return (
     <button
       onClick={onClick}
-      className="group p-6 bg-card border border-border rounded-lg hover:border-primary/20 hover:shadow-md transition-all duration-200 text-left w-full"
+      className="group p-6 bg-card border border-border rounded-lg hover:border-primary/20 hover:shadow-md transition-all duration-200 text-left w-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      aria-label={`Start chat with intent: ${title}`}
     >
       <div className="flex items-start gap-4">
         <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">

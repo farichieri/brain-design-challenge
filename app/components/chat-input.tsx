@@ -41,12 +41,15 @@ export default function ChatInput({
             disabled={disabled}
             rows={1}
             className="w-full resize-none bg-background border border-input rounded-2xl px-4 py-3 pr-12 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring disabled:opacity-50 disabled:cursor-not-allowed min-h-[48px] max-h-32"
+            aria-label="Type your message"
+            aria-describedby="send-button"
             style={{
               scrollbarWidth: 'thin',
             }}
           />
 
           <button
+            id="send-button"
             onClick={handleSubmit}
             disabled={disabled || !message.trim()}
             className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"

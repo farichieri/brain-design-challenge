@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { toast } from 'sonner';
 
 interface Message {
   id: string;
@@ -87,7 +88,15 @@ export function useStreamingChat() {
         while (true) {
           const { done, value } = await reader.read();
 
-          if (done) break;
+          if (done) {
+            // Si el stream termina sin evento 'complete', marcar como completo
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === botMessageId ? { ...msg, isStreaming: false } : msg
+              )
+            );
+            break;
+          }
 
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split('\n');
@@ -118,14 +127,18 @@ export function useStreamingChat() {
                   throw new Error(data.error || 'Stream error occurred');
                 }
               } catch (parseError) {
+                console.error('Failed to parse SSE data:', parseError);
                 console.warn('Failed to parse SSE data:', line);
               }
             }
           }
         }
-      } catch (err) {
-        console.error('Chat error:', err);
-        setError(err instanceof Error ? err.message : 'Something went wrong');
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : 'Something went wrong';
+        console.error('Chat error:', error);
+        toast.error(`Failed to send message: ${errorMessage}`);
+        setError(errorMessage);
         setMessages((prev) => prev.filter((msg) => msg.id !== botMessageId));
       } finally {
         setIsLoading(false);
@@ -149,6 +162,24 @@ export function useStreamingChat() {
     }
   }, [messages, sendMessage]);
 
+  const retryMessage = useCallback(
+    (messageId: string) => {
+      const messageIndex = messages.findIndex((msg) => msg.id === messageId);
+      if (messageIndex === -1) return;
+
+      const previousUserMessage = messages
+        .slice(0, messageIndex)
+        .reverse()
+        .find((msg) => msg.isUser);
+
+      if (previousUserMessage) {
+        setMessages((prev) => prev.slice(0, messageIndex));
+        sendMessage(previousUserMessage.content);
+      }
+    },
+    [messages, sendMessage]
+  );
+
   return {
     messages,
     isLoading,
@@ -156,5 +187,6 @@ export function useStreamingChat() {
     sendMessage,
     clearMessages,
     retryLastMessage,
+    retryMessage,
   };
 }

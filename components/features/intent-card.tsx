@@ -25,8 +25,11 @@ export default function IntentCard({
     >
       {/* Icon */}
       <div className="mb-4">
-        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 text-primary group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-300">
-          <Icon name={icon} className="w-6 h-6" />
+        <div className="relative inline-flex">
+          <div className="absolute -inset-1 bg-gradient-to-br from-primary/30 to-secondary/30 rounded-xl blur opacity-0 group-hover:opacity-40 transition-all duration-500"></div>
+          <div className="relative inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 text-primary group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-300">
+            <Icon name={icon} className="w-6 h-6" />
+          </div>
         </div>
       </div>
 

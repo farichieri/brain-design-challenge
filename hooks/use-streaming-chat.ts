@@ -150,6 +150,7 @@ export function useStreamingChat() {
   const clearMessages = useCallback(() => {
     setMessages([]);
     setError(null);
+    setIsLoading(false);
   }, []);
 
   const retryLastMessage = useCallback(() => {

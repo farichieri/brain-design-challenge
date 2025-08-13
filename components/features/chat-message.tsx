@@ -62,29 +62,31 @@ export default function ChatMessage({
   };
   return (
     <div
-      className={`group flex gap-3 p-4 ${
+      className={`group flex gap-2 sm:gap-4 p-2 rounded-3xl sm:p-4 ${
         isUser ? 'justify-end' : 'justify-start'
-      }`}
+      } hover:bg-muted/20 transition-colors duration-200`}
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
       {!isUser && (
-        <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-secondary to-accent rounded-full flex items-center justify-center">
-          <span className="text-secondary-foreground text-sm font-medium">
+        <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/20 rounded-xl flex items-center justify-center">
+          <span className="text-primary text-xs sm:text-sm font-medium">
             AI
           </span>
         </div>
       )}
 
-      <div className={`max-w-[70%] ${isUser ? 'order-first' : ''}`}>
+      <div
+        className={`max-w-[85%] sm:max-w-[75%] ${isUser ? 'order-first' : ''}`}
+      >
         <div
-          className={`rounded-2xl px-4 py-3 ${
+          className={`rounded-2xl px-3 sm:px-4 py-2 sm:py-3 shadow-sm ${
             isUser
               ? 'bg-primary text-primary-foreground ml-auto'
-              : 'bg-muted text-foreground'
+              : 'bg-background/80 backdrop-blur border border-border/50 text-foreground'
           }`}
         >
-          <div className="whitespace-pre-wrap">
+          <div className="whitespace-pre-wrap leading-relaxed text-sm sm:text-base">
             {displayedContent}
             {(isStreaming || isTyping) && (
               <span
@@ -101,7 +103,7 @@ export default function ChatMessage({
 
         {timestamp && (
           <div
-            className={`text-xs text-muted-foreground mt-1 ${
+            className={`text-xs text-muted-foreground mt-2 ${
               isUser ? 'text-right' : 'text-left'
             }`}
           >
@@ -110,13 +112,13 @@ export default function ChatMessage({
         )}
 
         <div
-          className={`flex gap-1 mt-2 transition-opacity duration-200 ${
+          className={`flex gap-2 mt-2 transition-opacity duration-200 ${
             isUser ? 'justify-end' : 'justify-start'
           } ${showActions ? 'opacity-100' : 'opacity-0'}`}
         >
           <button
             onClick={handleCopy}
-            className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+            className="p-2 rounded-lg hover:bg-muted/50 text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-105"
             aria-label="Copy message"
             style={{ pointerEvents: showActions ? 'auto' : 'none' }}
           >
@@ -138,7 +140,7 @@ export default function ChatMessage({
           {!isUser && onRetry ? (
             <button
               onClick={onRetry}
-              className="p-1 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+              className="p-2 rounded-lg hover:bg-muted/50 text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-105"
               aria-label="Retry message"
               style={{ pointerEvents: showActions ? 'auto' : 'none' }}
             >
@@ -156,15 +158,15 @@ export default function ChatMessage({
                 />
               </svg>
             </button>
-          ) : (
-            <div className="w-6 h-6" />
-          )}
+          ) : null}
         </div>
       </div>
 
       {isUser && (
-        <div className="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-          <span className="text-primary-foreground text-sm font-medium">U</span>
+        <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-primary rounded-xl flex items-center justify-center">
+          <span className="text-primary-foreground text-xs sm:text-sm font-medium">
+            U
+          </span>
         </div>
       )}
     </div>

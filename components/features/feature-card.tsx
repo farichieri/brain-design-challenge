@@ -15,14 +15,25 @@ export default function FeatureCard({
   gradient,
 }: FeatureCardProps) {
   return (
-    <div className="group p-6 md:p-8 text-center hover:bg-card/50 rounded-2xl transition-all duration-300">
-      <div
-        className={`w-16 h-16 bg-gradient-to-br ${gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-      >
-        <Icon name={icon} className="w-8 h-8 text-primary-foreground" />
+    <div className="group text-center">
+      {/* Icon container with circular design */}
+      <div className="relative mb-6">
+        <div className="w-20 h-20 bg-card/50 border border-border/30 rounded-full flex items-center justify-center mx-auto backdrop-blur-sm group-hover:border-primary/30 transition-all duration-300">
+          <div
+            className={`w-12 h-12 bg-gradient-to-br ${gradient} rounded-full flex items-center justify-center shadow-lg`}
+          >
+            <Icon name={icon} className="w-6 h-6 text-primary-foreground" />
+          </div>
+        </div>
       </div>
-      <h3 className="text-xl font-bold text-foreground mb-3">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed">{description}</p>
+
+      {/* Content */}
+      <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors duration-300">
+        {title}
+      </h3>
+      <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+        {description}
+      </p>
     </div>
   );
 }

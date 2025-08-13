@@ -157,7 +157,7 @@ export default function ChatPage() {
         </div>
       )}
 
-      <div className="p-3 md:p-4 border-t border-border/50">
+      <div className="p-3 md:p-4 border-t border-border/30">
         <ChatInput
           onSendMessage={sendMessage}
           disabled={isLoading}

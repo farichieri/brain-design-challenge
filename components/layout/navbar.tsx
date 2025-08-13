@@ -23,7 +23,7 @@ export default function Navbar({
           href="/"
           className="flex items-center gap-2 md:gap-3 hover:opacity-80 transition-opacity min-w-0"
         >
-          <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-secondary to-accent rounded-full flex items-center justify-center">
+          <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center">
             <span className="text-secondary-foreground text-sm font-medium">
               AI
             </span>

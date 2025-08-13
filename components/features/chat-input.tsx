@@ -71,10 +71,6 @@ export default function ChatInput({
           </button>
         </div>
       </div>
-
-      <div className="max-w-4xl mx-auto mt-2 text-xs text-muted-foreground text-center">
-        Press Enter to send, Shift+Enter for new line
-      </div>
     </div>
   );
 }

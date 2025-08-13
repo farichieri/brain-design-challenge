@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Footer from '@/components/layout/footer';
@@ -22,6 +22,13 @@ export const metadata: Metadata = {
     'Backend API for frontend developers to build creative AI chat interfaces',
 };
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  maximumScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,7 +40,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CustomThemeProvider>
-          <div className="min-h-screen flex flex-col">
+          <div className="min-h-screen flex flex-col overflow-x-hidden">
             <Suspense fallback={null}>{children}</Suspense>
             <Footer />
           </div>

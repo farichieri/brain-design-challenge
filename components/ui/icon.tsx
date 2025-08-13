@@ -8,6 +8,10 @@ import {
   QuestionIcon,
   LightningIcon,
   BookIcon,
+  BoltIcon,
+  BookOpenIcon,
+  DisplayIcon,
+  RocketIcon,
 } from './icons';
 
 interface IconProps {
@@ -24,6 +28,10 @@ const iconMap = {
   QuestionIcon,
   LightningIcon,
   BookIcon,
+  BoltIcon,
+  BookOpenIcon,
+  DisplayIcon,
+  RocketIcon,
 };
 
 export default function Icon({ name, className = 'w-5 h-5' }: IconProps) {

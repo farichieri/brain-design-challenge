@@ -1,10 +1,9 @@
 export const LANDING_CONTENT = {
   hero: {
-    title: 'OUAF Assistant',
+    title: 'Your AI-powered OUAF Assistant',
     subtitle:
-      'Your intelligent companion for Oracle Utilities Application Framework',
-    description:
-      'Ask questions, get code examples, and learn best practices with AI-powered assistance',
+      'Get instant answers, code examples, and expert guidance for Oracle Utilities Application Framework',
+    description: 'Start a conversation below or choose from our popular topics',
   },
 
   sections: {
@@ -37,11 +36,10 @@ export const LANDING_CONTENT = {
       icon: 'SettingsIcon',
     },
     {
-      title: 'Code Examples',
+      title: 'Explain Code Snippet',
       description:
-        'Get practical code snippets and implementation examples for common OUAF development patterns.',
-      message:
-        'Show me code examples for implementing a custom business object in OUAF',
+        'Get detailed explanations of OUAF code snippets, functions, and implementation patterns.',
+      message: 'Can you explain this OUAF code snippet and how it works?',
       icon: 'CodeIcon',
     },
     {
@@ -70,27 +68,63 @@ export const LANDING_CONTENT = {
 
   features: [
     {
-      title: 'Real-time Responses',
+      title: 'Real-time Streaming Responses',
       description:
-        'Get instant answers with streaming responses for a smooth conversation experience powered by AI',
-      icon: 'LightningIcon',
+        'Get instant answers with live streaming for a smooth conversation experience',
+      icon: 'BoltIcon',
       gradient: 'from-primary to-primary/80',
     },
     {
-      title: 'OUAF Expertise',
+      title: 'OUAF-specific Expertise',
       description:
-        'Specialized knowledge about Oracle Utilities Application Framework documentation and best practices',
-      icon: 'BookIcon',
-      gradient: 'from-secondary to-accent',
+        'Specialized knowledge about Oracle Utilities Application Framework',
+      icon: 'BookOpenIcon',
+      gradient: 'from-primary to-primary/80',
     },
     {
-      title: 'Code Examples',
+      title: 'Clean, Intuitive Interface',
       description:
-        'Get practical code snippets and implementation examples for your development needs',
-      icon: 'CodeIcon',
-      gradient: 'from-accent to-accent/80',
+        'Simple and elegant design focused on getting you answers quickly',
+      icon: 'DisplayIcon',
+      gradient: 'from-primary to-primary/80',
+    },
+    {
+      title: 'Quick Start Options',
+      description:
+        'Start from intent cards or jump straight into free-form conversation',
+      icon: 'RocketIcon',
+      gradient: 'from-primary to-primary/80',
     },
   ],
+
+  howItWorks: [
+    {
+      step: 1,
+      title: 'Start a conversation',
+      description: 'Type your question or choose from our intent cards',
+      icon: 'DocumentIcon',
+    },
+    {
+      step: 2,
+      title: 'AI processes your query',
+      description:
+        'Our specialized OUAF assistant analyzes and understands your request',
+      icon: 'LightningIcon',
+    },
+    {
+      step: 3,
+      title: 'Get actionable answers',
+      description:
+        'Receive detailed responses with code examples and best practices',
+      icon: 'BookIcon',
+    },
+  ],
+
+  finalCta: {
+    title: 'Ready to transform your OUAF development experience?',
+    subtitle: 'Start chatting with your AI-powered assistant today',
+    buttonText: 'Start Chatting',
+  },
 } as const;
 
 export type IconName =
@@ -101,4 +135,8 @@ export type IconName =
   | 'WarningIcon'
   | 'QuestionIcon'
   | 'LightningIcon'
-  | 'BookIcon';
+  | 'BookIcon'
+  | 'BoltIcon'
+  | 'BookOpenIcon'
+  | 'DisplayIcon'
+  | 'RocketIcon';

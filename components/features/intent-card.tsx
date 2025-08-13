@@ -20,36 +20,38 @@ export default function IntentCard({
     <button
       onClick={onClick}
       disabled={disabled}
-      className="group p-6 bg-card border border-border/50 rounded-lg hover:border-primary/20 hover:shadow-md transition-all duration-300 cursor-pointer text-left w-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="group p-6 rounded-2xl border border-border/30 bg-card/50 hover:bg-card/80 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 cursor-pointer text-left w-full focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
       aria-label={`Start chat with intent: ${title}`}
     >
-      <div className="flex items-start gap-4">
-        <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-          <Icon name={icon} className="w-5 h-5 text-secondary-foreground" />
+      {/* Icon */}
+      <div className="mb-4">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 text-primary group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-300">
+          <Icon name={icon} className="w-6 h-6" />
         </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-card-foreground mb-1 group-hover:text-primary transition-colors">
-            {title}
-          </h3>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {description}
-          </p>
-        </div>
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-          <svg
-            className="w-5 h-5 text-primary"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </div>
+      </div>
+
+      {/* Content */}
+      <h3 className="text-lg md:text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
+        {title}
+      </h3>
+      <p className="text-muted-foreground leading-relaxed">{description}</p>
+
+      {/* Hover arrow indicator */}
+      <div className="mt-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <span className="text-sm text-primary font-medium">Start chat</span>
+        <svg
+          className="w-4 h-4 text-primary transform group-hover:translate-x-1 transition-transform duration-300"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
       </div>
     </button>
   );

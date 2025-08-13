@@ -46,7 +46,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
+    --background: 0 0% 96%;
     --foreground: 0 0% 15%;
 
     --card: 0 0% 100%;
@@ -68,7 +68,7 @@
     --destructive-foreground: 0 0% 98%;
 
     --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 55%;
+    --muted-foreground: 0 0% 33%;
 
     --border: 0 0% 89%;
     --input: 0 0% 89%;
@@ -141,4 +141,9 @@
     opacity: 1;
     transform: scale(1.1);
   }
+}
+
+.container {
+  @apply mx-auto px-4;
+  max-width: 1440px;
 }

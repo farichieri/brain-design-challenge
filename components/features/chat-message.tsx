@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
 interface ChatMessageProps {
@@ -17,6 +17,39 @@ export default function ChatMessage({
   onRetry,
 }: ChatMessageProps) {
   const [showActions, setShowActions] = useState(false);
+  const [displayedContent, setDisplayedContent] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+
+  // Typewriter effect for streaming AI messages
+  useEffect(() => {
+    if (isUser) {
+      setDisplayedContent(content);
+      return;
+    }
+
+    // If content is longer than displayed, start typing animation
+    if (content.length > displayedContent.length) {
+      setIsTyping(true);
+      const timer = setTimeout(() => {
+        setDisplayedContent((prev) => {
+          const nextChar = content[prev.length];
+          return prev + (nextChar || '');
+        });
+      }, 15); // 15ms between characters for smooth typing
+
+      return () => clearTimeout(timer);
+    } else if (content.length === displayedContent.length && isTyping) {
+      setIsTyping(false);
+    }
+  }, [content, displayedContent, isUser, isTyping]);
+
+  // Reset when new message starts
+  useEffect(() => {
+    if (!isUser && content === '') {
+      setDisplayedContent('');
+      setIsTyping(false);
+    }
+  }, [content, isUser]);
 
   const handleCopy = async () => {
     try {
@@ -52,8 +85,8 @@ export default function ChatMessage({
           }`}
         >
           <div className="whitespace-pre-wrap">
-            {content}
-            {isStreaming === true && (
+            {displayedContent}
+            {(isStreaming || isTyping) && (
               <span
                 className="inline-block ml-0.5 text-current"
                 style={{

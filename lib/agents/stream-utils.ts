@@ -1,7 +1,9 @@
 import { InvokeAgentCommandOutput } from '@aws-sdk/client-bedrock-agent-runtime';
 
 // Process completion stream and yield chunks for real-time streaming
-export async function* streamAgentResponse(response: InvokeAgentCommandOutput): AsyncGenerator<string> {
+export async function* streamAgentResponse(
+  response: InvokeAgentCommandOutput
+): AsyncGenerator<string> {
   try {
     const { completion } = response;
 
@@ -21,14 +23,20 @@ export async function* streamAgentResponse(response: InvokeAgentCommandOutput): 
       }
     } catch (parseError) {
       // Handle parsing errors in stream
-      if (parseError instanceof Error && parseError.message.includes('parse the model response')) {
+      if (
+        parseError instanceof Error &&
+        parseError.message.includes('parse the model response')
+      ) {
         yield 'The agent response could not be parsed. Please check your agent configuration.';
       } else {
-        yield `Stream error: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`;
+        yield `Stream error: ${
+          parseError instanceof Error ? parseError.message : 'Unknown error'
+        }`;
       }
     }
-    
   } catch (error) {
-    yield `Stream Error: ${error instanceof Error ? error.message : 'Unknown streaming error'}`;
+    yield `Stream Error: ${
+      error instanceof Error ? error.message : 'Unknown streaming error'
+    }`;
   }
 }

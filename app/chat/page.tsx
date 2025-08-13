@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
-import ChatMessage from '@/app/components/chat-message';
-import ChatInput from '@/app/components/chat-input';
-import ThemeToggle from '@/app/components/theme-toggle';
-import { useStreamingChat } from '@/app/hooks/use-streaming-chat';
+import ChatInput from '@/components/features/chat-input';
+import Navbar from '@/components/layout/navbar';
+import { useStreamingChat } from '@/hooks/use-streaming-chat';
+import ChatMessage from '@/components/features/chat-message';
 
 export default function ChatPage() {
   const {
@@ -19,6 +19,7 @@ export default function ChatPage() {
   } = useStreamingChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
+  const initialMessageSent = useRef(false);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -26,15 +27,21 @@ export default function ChatPage() {
 
   useEffect(() => {
     const messageFromUrl = searchParams.get('message');
-    if (messageFromUrl && messages.length === 0) {
+    if (
+      messageFromUrl &&
+      messages.length === 0 &&
+      !initialMessageSent.current
+    ) {
+      initialMessageSent.current = true;
       sendMessage(messageFromUrl);
     }
-  }, [searchParams, sendMessage, messages.length]);
+  }, [searchParams, messages.length, sendMessage]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         clearMessages();
+        initialMessageSent.current = false;
       }
     },
     [clearMessages]
@@ -46,47 +53,19 @@ export default function ChatPage() {
   }, [handleKeyDown]);
 
   return (
-    <div className="flex flex-col h-screen bg-background">
-      <header className="border-b bg-card p-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-secondary to-accent rounded-full flex items-center justify-center">
-            <span className="text-secondary-foreground text-sm font-medium">
-              AI
-            </span>
-          </div>
-          <div>
-            <h1 className="font-semibold text-card-foreground">
-              OUAF Assistant
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Oracle Utilities Application Framework
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {error && (
-            <button
-              onClick={retryLastMessage}
-              className="px-3 py-1 text-sm bg-destructive text-destructive-foreground rounded-md hover:bg-destructive/90 transition-colors"
-              aria-label="Retry last message"
-            >
-              Retry
-            </button>
-          )}
-          <button
-            onClick={clearMessages}
-            className="px-3 py-1 text-sm bg-muted text-muted-foreground rounded-md hover:bg-muted/80 transition-colors"
-            aria-label="Clear all messages"
-          >
-            Clear Chat
-          </button>
-          <ThemeToggle />
-        </div>
-      </header>
+    <div className="flex flex-col flex-1 bg-background">
+      <Navbar
+        onClearChat={() => {
+          clearMessages();
+          initialMessageSent.current = false;
+        }}
+        showClearButton={true}
+        onRetry={retryLastMessage}
+        showRetryButton={!!error}
+      />
 
       <div
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-y-auto pt-4"
         role="log"
         aria-label="Chat messages"
         aria-live="polite"
@@ -178,11 +157,13 @@ export default function ChatPage() {
         </div>
       )}
 
-      <ChatInput
-        onSendMessage={sendMessage}
-        disabled={isLoading}
-        placeholder="Ask about OUAF documentation, examples, or best practices..."
-      />
+      <div className="p-3 md:p-4 border-t border-border/50">
+        <ChatInput
+          onSendMessage={sendMessage}
+          disabled={isLoading}
+          placeholder="Ask about OUAF documentation, examples, or best practices..."
+        />
+      </div>
     </div>
   );
 }

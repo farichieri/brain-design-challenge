@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useIsMounted } from '@/app/hooks/use-is-mounted';
+import { useIsMounted } from '@/hooks/use-is-mounted';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -9,7 +9,7 @@ export default function ThemeToggle() {
 
   if (!isMounted) {
     return (
-      <button className="w-9 h-9 bg-muted rounded-md flex items-center justify-center">
+      <button className="w-9 h-9 bg-muted rounded-full flex items-center justify-center">
         <div className="w-4 h-4 bg-muted-foreground/20 rounded-full" />
       </button>
     );
@@ -18,12 +18,12 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="w-9 h-9 bg-muted hover:bg-muted/80 rounded-md flex items-center justify-center transition-colors"
+      className="w-9 h-9 bg-foreground/50 hover:bg-foreground/70 active:bg-foreground/30 cursor-pointer rounded-full flex items-center justify-center transition-colors"
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? (
         <svg
-          className="w-4 h-4 text-muted-foreground"
+          className="w-4 h-4 text-background/50"
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -35,7 +35,7 @@ export default function ThemeToggle() {
         </svg>
       ) : (
         <svg
-          className="w-4 h-4 text-muted-foreground"
+          className="w-4 h-4 text-background/50"
           fill="currentColor"
           viewBox="0 0 20 20"
         >

@@ -435,78 +435,143 @@ BEDROCK_AGENT_ALIAS_ID=your-alias-id
 
 ## 🏗️ **Architecture Decisions**
 
-### **Component Structure**
+### **Project Structure**
 
 ```
-app/
-├── components/           # Reusable UI components
-│   ├── chat-message.tsx     # Individual message bubble
-│   ├── chat-input.tsx       # Message input with send
-│   ├── intent-card.tsx      # Home screen intent cards
-│   └── theme-toggle.tsx     # Light/dark mode toggle
-├── hooks/               # Custom React hooks
-│   ├── use-streaming-chat.ts # Chat state & SSE logic
+📂 Project Root/
+├── 📂 app/                    # Next.js App Router
+│   ├── 📄 page.tsx           # SSR Home page
+│   ├── 📄 chat/page.tsx      # Client Chat page
+│   ├── 📄 layout.tsx         # Root layout
+│   └── 🎨 globals.css        # Global styles
+├── 📂 components/             # Shared components
+│   ├── 📂 ui/                # Basic UI components
+│   │   ├── icons.tsx         # SVG icon functions
+│   │   ├── icon.tsx          # Icon wrapper
+│   │   └── theme-toggle.tsx  # Theme switcher
+│   ├── 📂 layout/            # Layout components
+│   │   ├── navbar.tsx        # Navigation
+│   │   ├── hero-section.tsx  # Hero section
+│   │   └── footer.tsx        # Footer
+│   ├── 📂 features/          # Feature components
+│   │   ├── chat-message.tsx  # Chat message with actions
+│   │   ├── chat-input.tsx    # Chat input
+│   │   ├── intent-card.tsx   # Intent cards
+│   │   └── feature-card.tsx  # Feature cards
+│   └── 📂 sections/          # Page sections
+│       ├── intent-cards-section.tsx
+│       ├── conversation-section.tsx
+│       └── features-section.tsx
+├── 📂 hooks/                  # Custom React hooks
+│   ├── use-streaming-chat.ts # Chat logic
 │   └── use-is-mounted.ts     # Hydration safety
-├── providers/           # Context providers
-│   └── theme-provider.tsx   # next-themes wrapper
-└── pages/               # App Router pages
-    ├── page.tsx            # Home screen
-    └── chat/page.tsx       # Chat interface
+├── 📂 constants/              # App constants
+│   └── landing.ts            # Landing page content
+└── 📂 providers/              # Context providers
+    └── theme-provider.tsx    # Theme context
 ```
 
 ### **Key Technical Choices**
 
-#### **1. Streaming Implementation**
+#### **1. Next.js Architecture**
+
+- **Server-Side Rendering (SSR)** for home page performance
+- **Client Components** only where interactivity is needed
+- **App Router** with modern file-based routing
+- **Components outside app/** following Next.js 13+ best practices
+
+#### **2. Component Architecture**
+
+- **Modular Design** with clear separation of concerns:
+  - `ui/` - Basic reusable components
+  - `layout/` - Page structure components
+  - `features/` - Business logic components
+  - `sections/` - Complete page sections
+- **DRY Principle** with centralized constants and reusable components
+- **TypeScript** for complete type safety
+
+#### **3. Streaming Implementation**
 
 - **Server-Sent Events (SSE)** for real-time message streaming
 - **Custom hook** (`useStreamingChat`) for state management
 - **Fallback handling** to prevent stuck streaming indicators
+- **Real-time typing animation** with smooth cursor effects
 
-#### **2. State Management**
-
-- **React useState** for local component state
-- **No external state library** (Redux/Zustand) to keep it simple
-- **Custom hooks** for reusable logic encapsulation
-
-#### **3. Styling Approach**
+#### **4. Styling System**
 
 - **Tailwind CSS v4** with HSL custom properties
-- **Red Clay brand palette** mapped to semantic tokens
+- **Red Clay brand palette** mapped to semantic design tokens
+- **Modern minimalist AI design** (2025 style)
 - **Responsive design** with mobile-first approach
+- **Dark/Light theme** support with next-themes
 
-#### **4. Error Handling**
+#### **5. State Management**
+
+- **React useState** for local component state
+- **Custom hooks** for reusable logic encapsulation
+- **No external state library** to keep bundle size minimal
+- **Client-side navigation** with smooth transitions
+
+#### **6. Developer Experience**
+
+- **Clean import paths** with organized folder structure
+- **Icon system** with individual SVG function components
+- **Centralized constants** for easy content management
+- **Consistent naming** with PascalCase components
+
+#### **7. Error Handling & UX**
 
 - **Sonner toast library** for centralized notifications
 - **Graceful degradation** for API failures
 - **User-friendly error messages** with retry functionality
+- **Loading states** and smooth transitions
 
-#### **5. Accessibility**
+#### **8. Accessibility**
 
 - **ARIA labels** for screen readers
 - **Keyboard navigation** support (Tab, Enter, Escape)
 - **Focus management** with visible indicators
-- **Semantic HTML** structure
+- **Semantic HTML** structure throughout
 
 ## 🎨 **UX Design Decisions**
 
-### **Home Screen**
+### **Modern AI Landing Page (2025 Style)**
 
-- **Intent cards** for quick access to common tasks
-- **Direct input** for custom queries
-- **Smooth navigation** to chat page with URL parameters
+- **Large gradient typography** for visual impact
+- **Minimalist design** with generous white space
+- **Subtle background decorations** with blur effects
+- **Intent cards** with hover animations and micro-interactions
+- **Hero section** with AI branding and gradient text
+- **Features section** with animated icons and smooth transitions
+
+### **Navigation & Layout**
+
+- **Modern backdrop-blur navbar** with floating design
+- **Responsive navigation** with optimal mobile experience
+- **Consistent footer** across all pages
+- **Smooth page transitions** and loading states
 
 ### **Chat Interface**
 
 - **ChatGPT-inspired layout** for familiarity
-- **Message actions** (copy, retry) on hover
-- **Smooth streaming cursor** with pulse animation
+- **Message actions** (copy, retry) appearing on hover
+- **Smooth streaming animation** with custom pulse cursor
 - **Auto-scroll** to latest messages
+- **Real-time typing indicators** during AI responses
 
-### **Theme Support**
+### **Interactive Elements**
 
-- **Light/dark mode** with next-themes
-- **System preference** detection
-- **Persistent theme** selection
+- **Micro-animations** on hover and focus states
+- **Gradient buttons** with smooth state transitions
+- **Card hover effects** with scale and shadow changes
+- **Theme toggle** with smooth color transitions
+
+### **Theme & Branding**
+
+- **Red Clay brand palette** with semantic color mapping
+- **Light/dark mode** with system preference detection
+- **Consistent iconography** with custom SVG components
+- **Typography hierarchy** with clear visual distinction
 
 ## 🔧 **Known Issues & Future Improvements**
 
@@ -528,23 +593,41 @@ app/
 
 ### **Requirements Completion**
 
-- ✅ **Streaming Chat Support** - SSE with typing animation
-- ✅ **Centralized Error Handling** - Toast notifications
-- ✅ **UX-Friendly Home Screen** - Intent cards + navigation
-- ✅ **Standard Chat Interface** - ChatGPT-style layout
-- ✅ **Reusable Components** - Modular architecture
-- ✅ **Keyboard Shortcuts** - Enter, Escape support
-- ✅ **Message Actions** - Copy, retry functionality
-- ✅ **Theme Support** - Light/dark mode toggle
-- ✅ **Accessibility** - ARIA labels, keyboard navigation
+#### **Core Requirements:**
 
-### **Code Quality**
+- ✅ **Streaming Chat Support** - SSE with real-time typing animation
+- ✅ **Centralized Error Handling** - Sonner toast notifications
+- ✅ **UX-Friendly Home Screen** - Modern AI design with intent cards
+- ✅ **Standard Chat Interface** - ChatGPT-style layout with actions
 
-- **TypeScript** for type safety
-- **Custom hooks** for logic separation
-- **Clean component architecture**
-- **Responsive design** principles
-- **Performance optimizations**
+#### **Bonus Features Implemented:**
+
+- ✅ **Reusable Components** - Modular 4-tier architecture
+- ✅ **Keyboard Shortcuts** - Enter, Escape, Tab navigation
+- ✅ **Message Actions** - Copy, retry with smooth animations
+- ✅ **Theme Support** - Dark/light mode with system detection
+- ✅ **Accessibility** - Complete ARIA support and keyboard navigation
+- ✅ **Modern Design** - 2025 AI minimalist styling
+- ✅ **SSR Performance** - Server-side rendering for home page
+- ✅ **Mobile Responsive** - Optimized for all screen sizes
+
+### **Architecture Quality**
+
+- ✅ **TypeScript 100%** - Complete type safety
+- ✅ **DRY Principle** - Centralized constants and reusable components
+- ✅ **Clean Architecture** - 4-tier component organization
+- ✅ **Performance** - SSR, client-side optimization, minimal bundle
+- ✅ **Developer Experience** - Organized structure, clear imports
+- ✅ **Scalable Design** - Easy to extend and maintain
+
+### **Technical Metrics**
+
+- **Components**: 13 organized in 4 logical categories
+- **Custom Hooks**: 2 for reusable logic
+- **Pages**: 2 (SSR home + client chat)
+- **TypeScript Coverage**: 100%
+- **Bundle Size**: Optimized with tree-shaking
+- **Performance**: Fast SSR + progressive enhancement
 
 ## 🧠 **Development Assumptions**
 

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import CustomThemeProvider from './providers/theme-provider';
+import Footer from '@/components/layout/footer';
 import { Toaster } from 'sonner';
+import CustomThemeProvider from '@/providers/theme-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,7 +32,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CustomThemeProvider>
-          {children}
+          <div className="min-h-screen flex flex-col">
+            {children}
+            <Footer />
+          </div>
           <Toaster position="top-right" />
         </CustomThemeProvider>
       </body>

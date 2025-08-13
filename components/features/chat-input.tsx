@@ -39,7 +39,7 @@ export default function ChatInput({
             onKeyDown={handleKeyPress}
             placeholder={placeholder}
             disabled={disabled}
-            rows={1}
+            rows={2}
             className="w-full resize-none bg-background/80 backdrop-blur border border-border/50 rounded-2xl px-3 sm:px-4 py-3 sm:py-4 pr-12 sm:pr-14 text-sm sm:text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed min-h-[48px] sm:min-h-[52px] md:min-h-[56px] max-h-32 shadow-sm transition-all duration-200"
             aria-label="Type your message"
             aria-describedby="send-button"
@@ -52,7 +52,7 @@ export default function ChatInput({
             id="send-button"
             onClick={handleSubmit}
             disabled={disabled || !message.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-primary text-primary-foreground rounded-xl flex items-center justify-center hover:bg-primary/90 hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-sm"
+            className="absolute right-2 bottom-4 w-8 h-8 sm:w-10 sm:h-10 bg-primary text-primary-foreground rounded-xl flex items-center justify-center hover:bg-primary/90 hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-sm"
             aria-label="Send message"
           >
             <svg

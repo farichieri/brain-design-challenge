@@ -5,6 +5,7 @@ import HowItWorksSection from '@/components/sections/how-it-works-section';
 import FinalCtaSection from '@/components/sections/final-cta-section';
 import Navbar from '@/components/layout/navbar';
 import BackgroundBlur from '@/components/ui/background-blur';
+import Footer from '@/components/layout/footer';
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <HowItWorksSection />
         <FinalCtaSection />
       </main>
+      <Footer />
     </div>
   );
 }

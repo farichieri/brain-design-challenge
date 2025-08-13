@@ -42,7 +42,6 @@ export default function RootLayout({
         <CustomThemeProvider>
           <div className="min-h-screen flex flex-col overflow-x-hidden">
             <Suspense fallback={null}>{children}</Suspense>
-            <Footer />
           </div>
           <Toaster position="top-right" />
         </CustomThemeProvider>

@@ -4,6 +4,7 @@ import './globals.css';
 import Footer from '@/components/layout/footer';
 import { Toaster } from 'sonner';
 import CustomThemeProvider from '@/providers/theme-provider';
+import { Suspense } from 'react';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,7 +34,7 @@ export default function RootLayout({
       >
         <CustomThemeProvider>
           <div className="min-h-screen flex flex-col">
-            {children}
+            <Suspense fallback={null}>{children}</Suspense>
             <Footer />
           </div>
           <Toaster position="top-right" />
